@@ -312,18 +312,33 @@ input {
 }
 
 #container #codeExample #codeBlock #suggested {
-    display: inline-block;
+    display: inline;
     font-style: italic;
     color: #C5C5C5;
 }
 
 #container #codeExample #codeBlock .comment {
-    display: inline-block;
+    display: inline;
     color: #6f6f6f;
 }
 
 #container #codeExample #codeBlock .segment {
+    display: inline;
+}
+
+#btn_show_unused {
+    width: 2vw;
+    height: var(--line-height);
+    background-color: orange;
     display: inline-block;
+    font-size: 15px;
+    text-align: center;
+    color: black;
+    cursor: pointer;
+}
+
+#container #codeExample #codeBlock #unused {
+    display: none;
 }
 
 #tooltip {
@@ -381,4 +396,49 @@ input {
 
 .diff {
     font-weight: 600;
+}
+
+#recommendation {
+    width: 20vw;
+    height: 25vh;
+    position: absolute;
+    right: 1vw;
+    top: 500px;
+    background-color: #fff;
+    box-shadow: 0px 3px 3px 2px rgba(0, 0, 0, 0.3);
+    display: none;
+    z-index: 100;
+}
+
+#recommendation #recommendationLeft {
+    width: 0.5vw;
+    height: 25vh;
+    float: left;
+    background-color: #002060;
+}
+
+#recommendation #recommendationContent {
+    width: 18vw;
+    height: 25vh;
+    float: left;
+    line-height: 5vh;
+    font-size: 2vh;
+}
+
+#recommendation #recommendationContent #recommendationTitle {
+    width: 19.5vw;
+    height: 5vh;
+    float: left;
+    line-height: 5vh;
+    font-size: 25px;
+    color: gray;
+}
+
+#recommendation #recommendationContent #recommendationText {
+    width: 19.5vw;
+    height: 20vh;
+    float: left;
+    font-size: 20px;
+    line-height: normal;
+    padding: 1vh;
 }
