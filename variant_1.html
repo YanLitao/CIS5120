@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="main.css">
+    <title>Explainer for AI Generated Code</title>
+</head>
+
+<body>
+    <div id="container">
+        <div id="outside">
+            <div id="codeExample">
+                <div class="line-numbers">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </div>
+                <div id="codeBlock" role="presentation" aria-hidden="true" data-mprt="8"
+                    style="font-family: Menlo, Monaco; ">
+                    <div class="view-line"><span><span class="mtk15">import</span><span class="mtk1">&nbsp;</span><span
+                                class="mtk14">pandas</span><span class="mtk1">&nbsp;</span><span
+                                class="mtk15">as</span><span class="mtk1">&nbsp;</span><span
+                                class="mtk14">pd</span></span></div>
+                    <div class="view-line"><span><span></span></span></div>
+                    <br>
+                    <div class="view-line"><span><span
+                                class="mtk4">#&nbsp;Reading&nbsp;data&nbsp;from&nbsp;CSV&nbsp;files</span></span></div>
+                    <div class="view-line"><span><span class="mtk16">df_all</span><span
+                                class="mtk1">&nbsp;=&nbsp;</span><span class="mtk14">pd</span><span
+                                class="mtk1">.</span><span class="mtk13">read_csv</span><span
+                                class="mtk1 bracket-highlighting-0">(</span><span
+                                class="mtk11">'path_to_df_all.csv'</span><span
+                                class="mtk1 bracket-highlighting-0">)</span></span></div>
+                    <div class="view-line"><span><span class="mtk16">df_Apr</span><span
+                                class="mtk1">&nbsp;=&nbsp;</span><span class="mtk14">pd</span><span
+                                class="mtk1">.</span><span class="mtk13">read_csv</span><span
+                                class="mtk1 bracket-highlighting-0">(</span><span
+                                class="mtk11">'path_to_df_Apr.csv'</span><span
+                                class="mtk1 bracket-highlighting-0">)</span></span></div>
+                    <div class="view-line"><span><span></span></span></div>
+                    <div class="view-line"><span><span></span></span></div>
+                    <br>
+                    <div class="view-line"><span><span class="mtk4">#&nbsp;Merge&nbsp;operation</span></span></div>
+                    <div class="view-line" id="suggested"><span>
+                            <div id="para_df_all" class="segment">df_all</div>.merge(df_Apr,
+                            <div id="para_on" class="segment">on='City'</div>,
+                            <div id="para_how" class="segment">how='left'</div>,
+                            <div id="para_suff" class="segment">suffixes=('_all', '_apr')</div>
+                            <div id="btn_show_unused"><-></div>
+                            <div id="unused">
+                                ,
+                                <div id="para_left_on" class="segment">left_on=None</div>,
+                                <div id="para_right_on" class="segment">right_on=None</div>,
+                                <div id="para_left_index" class="segment">left_index=False</div>,
+                                <div id="para_right_index" class="segment">right_index=False</div>,
+                                <div id="para_sort" class="segment">sort=False</div>,
+                                <div id="para_copy" class="segment">copy=None</div>,
+                                <div id="para_indicator" class="segment">indicator=False</div>,
+                                <div id="para_validate" class="segment">validate=None</div>
+                            </div>
+                            )
+                    </div>
+                </div>
+                <div id="explainer">
+                    <div id="recommendation">
+                        <div id="recommendationLeft"></div>
+                        <div id="recommendationContent">
+                            <div id="recommendationTitle">This is title</div>
+                            <div id="recommendationText"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</body>
+<script src="scripts/ivie.js" type="text/javascript"></script>
+
+</html>

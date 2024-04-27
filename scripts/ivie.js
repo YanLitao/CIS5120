@@ -121,22 +121,27 @@ const parameterCombinations = {
 };
 
 
-const tooltip_width = 300;
+const tooltip_width = 20;
 const space_between_line_and_tooltip = 18;
 const border_width = 5;
 const space_between_line_and_code = 3;
 const tooltip_border_colors = ["#52F2CC", "#52A5F2", "#F25287", "#52F258"];
 const recommend_color = { "must use together": "#52A5F2", "recommend to use together": "#52F258", "forbid to use together": "#F25287" };
 const code_example_block = document.getElementById("codeExample");
+const explainer = document.getElementById("explainer");
+const recommendation = document.getElementById("recommendation");
 
-function linkCodeToExplanations(line_mid, tooltip_mid, line_color) {
+function linkCodeToExplanations(span, tooltip, line_color) {
+    var line_mid = span.offsetLeft + span.offsetWidth / 2;
+    var tooltip_mid = tooltip.offsetLeft + tooltip.offsetWidth / 2;
+    var height = 401 - span.offsetTop - span.offsetHeight - space_between_line_and_code;
     const svg = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
     svg.setAttribute('width', `${Math.max(line_mid, tooltip_mid) - Math.min(line_mid, tooltip_mid)}px`);
-    svg.setAttribute('height', '15px');
+    svg.setAttribute('height', `${height}px`);
 
     const line = document.createElementNS('http://www.w3.org/2000/svg', 'line');
     line.setAttribute('x1', `${tooltip_mid - Math.min(line_mid, tooltip_mid)}`);
-    line.setAttribute('y1', '15');
+    line.setAttribute('y1', `${height}`);
     line.setAttribute('x2', `${line_mid - Math.min(line_mid, tooltip_mid)}`);
     line.setAttribute('y2', '0');
     line.setAttribute('stroke-linecap', 'round');
@@ -145,7 +150,15 @@ function linkCodeToExplanations(line_mid, tooltip_mid, line_color) {
 
     // Add the line to the SVG element
     svg.appendChild(line);
-    return svg;
+    // Add the SVG element to the document
+    code_example_block.appendChild(svg);
+    svg.style.position = "absolute";
+    if (line_mid < tooltip_mid) {
+        svg.style.left = span.offsetLeft + span.offsetWidth / 2 + "px";
+    } else {
+        svg.style.left = tooltip.offsetLeft + tooltip.offsetWidth / 2 + "px";
+    }
+    svg.style.top = span.offsetTop + span.offsetHeight + 3 + "px";
 }
 
 function clean_all_before_hover() {
@@ -173,48 +186,84 @@ function clean_all_before_hover() {
     for (let tooltip of tooltips) {
         let id = tooltip.id.split("tooltip_")[1];
         let span = document.getElementById("para_" + id);
-        tooltip.style.left = span.offsetLeft + "px";
+        decide_tooltip_position(tooltip, span)
     }
     // hide the recommendation
     let recommendation = document.getElementById("recommendation");
     recommendation.style.display = "none";
+
+    // remove all the svg
+    let svgs = document.getElementsByTagName("svg");
+    for (let svg of svgs) {
+        svg.remove();
+    }
 }
-function solve_overlap_tooltips(tooltips) {
-    // tooltips is an array of tooltip elements
-    // we need to check each tooltip element's width and left.
-    // if the left + width of the tooltip A is larger than any other tooltip's left, then, we need to move the tooltip A to the left
-    // find which tooltip is overlapped with the current tooltip
-    let overlapped_tooltips = [];
-    for (let i = 0; i < tooltips.length; i++) {
-        for (let j = 0; j < tooltips.length; j++) {
-            if (i !== j) {
-                let tooltip_i = tooltips[i];
-                let tooltip_j = tooltips[j];
-                let left_i = tooltip_i.offsetLeft;
-                let left_j = tooltip_j.offsetLeft;
-                let width_i = tooltip_i.offsetWidth;
-                if (left_i + width_i > left_j) {
-                    overlapped_tooltips.push([tooltip_i, tooltip_j]);
-                }
-            }
-        }
+function solve_overlap_tooltips(tooltips, color = "") {
+    // tooltips is an array of 2 tooltip elements
+    // first two tooltips are the regular tooltips
+    // get the left position of the two tooltips' span's left position
+    let span_1 = document.getElementById("para_" + tooltips[0].id.split("tooltip_")[1]);
+    let span_1_left = span_1.offsetLeft;
+    let span_1_width = span_1.offsetWidth;
+    // get width in vw
+    let tooltip_1_width = tooltips[0].offsetWidth;
+    let span_2 = document.getElementById("para_" + tooltips[1].id.split("tooltip_")[1]);
+    let span_2_left = span_2.offsetLeft;
+    let span_2_width = span_2.offsetWidth;
+    let tooltip_2_width = tooltips[1].offsetWidth;
+    // recommendation tooltip width is 20vw, the totall width is 95vw
+    // there are three cases to consider, 
+    // width = 20vw and width = 30vw, total width is 70vw, space between the two tooltips is 12.5vw
+    // width = 20vw and width = 20vw, total width is 60vw, space between the two tooltips is 17.5vw
+    // width = 30vw and width = 30vw, total width is 80vw, space between the two tooltips is 7.5vw
+    // decide the space:
+    let code_example_block_width = code_example_block.offsetWidth;
+    let unit = code_example_block_width / 98;
+
+    let space = 0;
+    if (tooltip_1_width < code_example_block_width / 4 && tooltip_2_width < code_example_block_width / 4) {
+        space = 17.5 * unit;
+    } else if (tooltip_1_width > code_example_block_width / 4 && tooltip_2_width > code_example_block_width / 4) {
+        space = 7.5 * unit;
+    } else {
+        space = 12.5 * unit;
     }
-    // for each pair of overlapped tooltips, move the first tooltip to the left close to the second tooltip
-    for (let pair of overlapped_tooltips) {
-        let tooltip_i = pair[0];
-        let tooltip_j = pair[1];
-        let left_i = tooltip_i.offsetLeft;
-        let left_j = tooltip_j.offsetLeft;
-        let width_i = tooltip_i.offsetWidth;
-        let width_j = tooltip_j.offsetWidth;
-        let distance = left_i + width_i - left_j;
-        tooltip_i.style.left = left_i - distance + "px";
+    if (span_1_left < span_2_left) {
+        var new_left_1 = 3 * unit;
+        var new_left_2 = 3 * unit + tooltip_1_width + space;
+        tooltips[0].style.left = 3 * unit + "px";
+        tooltips[1].style.left = 3 * unit + tooltip_1_width + space + "px";
+    } else {
+        var new_left_1 = 3 * unit + tooltip_2_width + space;
+        var new_left_2 = 3 * unit;
+        tooltips[0].style.left = 3 * unit + tooltip_2_width + space + "px";
+        tooltips[1].style.left = 3 * unit + "px";
     }
+    // remove all svg elements
+    let svgs = document.getElementsByTagName("svg");
+    for (let svg of svgs) {
+        svg.remove();
+    }
+    // create a new link
+    if (color == "") {
+        color = tooltip_border_colors[1];
+    }
+    // also change the color of the line
+    let line_1 = document.getElementById("line_" + span_1.id.split("para_")[1]);
+    let line_2 = document.getElementById("line_" + span_2.id.split("para_")[1]);
+    line_1.style.borderTop = border_width + "px solid " + color;
+    line_2.style.borderTop = border_width + "px solid " + color;
+    // change the color of tooltip's border top
+    tooltips[0].style.borderTop = border_width + "px solid " + color;
+    tooltips[1].style.borderTop = border_width + "px solid " + color;
+    // create a new link
+    linkCodeToExplanations(span_1, tooltips[0], color);
+    linkCodeToExplanations(span_2, tooltips[1], color);
 }
 
 function createTooltip(parameter, id) {
     originalId = "para_" + id;
-    let thisColor = tooltip_border_colors[Object.keys(parameter).indexOf(id) % 4];
+    let thisColor = tooltip_border_colors[1];
     let span = document.getElementById(originalId);
     // create a line element just beneth the span element
     let line = document.createElement("div");
@@ -236,7 +285,7 @@ function createTooltip(parameter, id) {
     tooltip.style.borderTop = border_width + "px solid " + thisColor;
     tooltip.style.zIndex = "1";
     // set the width of the span element to the tooltip's width
-    tooltip.style.width = tooltip_width + "px";
+    tooltip.style.width = tooltip_width + "vw";
 
     // add meaning to the tooltip as a div element
     let meaning = document.createElement("div");
@@ -257,11 +306,11 @@ function createTooltip(parameter, id) {
     tooltip.className = "tooltips";
     // add options as radio buttons
     if (parameter[id]["options"].length > 0) {
-        tooltip.style.width = "500px";
+        tooltip.style.width = "30vw";
         // add a line to separate the meaning and the options
         let breakline = document.createElement("hr");
         breakline.style.width = "100%";
-        breakline.style.border = "2px solid " + thisColor;
+        breakline.style.border = "2px solid gray";
         breakline.style.margin = "5px 0px";
         tooltip.appendChild(breakline);
 
@@ -300,18 +349,23 @@ function createTooltip(parameter, id) {
             div.addEventListener("mouseover", function (e) {
                 // avoid the pointer event to be captured by the parent element
                 e.stopPropagation();
+
                 // if the option is in parameterCombinations, then, show the combinations
                 // if e.target is a label element, then, get the parent element
                 if (e.target.tagName === "LABEL") {
-                    e.target = e.target.parentElement;
+                    var e_div = e.target.parentElement;
                 } else if (e.target.tagName === "SPAN") {
-                    e.target = e.target.parentElement.parentElement;
+                    var e_div = e.target.parentElement.parentElement;
                 } else if (e.target.tagName === "INPUT") {
-                    e.target = e.target.parentElement;
+                    var e_div = e.target.parentElement;
+                } else {
+                    var e_div = e.target;
                 }
+
                 // 1. get the value of the option and id by splitting the id of the div element
-                let id = e.target.parentElement.id.split("_option_")[0];
-                let option = e.target.parentElement.id.split("_option_")[1];
+                let id = e_div.id.split("_option_")[0];
+                //let option = e_div.id.split("_option_")[1];
+
                 // 2. check if the option is in parameterCombinations
                 for (let key in parameterCombinations) {
                     // key is the level of the combination, like "must use together", "recommend to use together", "forbid to use together"
@@ -324,7 +378,7 @@ function createTooltip(parameter, id) {
                                 for (let tooltip of tooltips) {
                                     for (let other_option of combination["content"]) {
                                         let tooltip_id = tooltip.id.split("tooltip_")[1];
-                                        if (tooltip_id in other_option) {
+                                        if (tooltip_id in other_option && tooltip_id !== id) {
                                             // if the tooltip_id is in unusedParameters, then, check whether it is displayed
                                             // if not, then skip
                                             if (Object.keys(unusedParameters).includes(tooltip_id)) {
@@ -333,19 +387,20 @@ function createTooltip(parameter, id) {
                                                 }
                                             }
                                             tooltip.style.display = "block";
-                                            let tooltip_color = tooltip_border_colors[Object.keys(parameter).indexOf(tooltip_id) % 4];
+                                            let tooltip_color = tooltip_border_colors[1];
                                             // also show the line
                                             let line = document.getElementById("line_" + tooltip_id);
                                             line.style.display = "block";
+                                            solve_overlap_tooltips([this_tooltip, tooltip], recommend_color[key]);
                                             // add a background to the option div that in the combination
                                             let option_div = document.getElementById(tooltip_id + "_option_" + other_option[tooltip_id]);
                                             if (option_div) {
-                                                option_div.style.backgroundColor = "#f0f0f0";
+                                                option_div.style.backgroundColor = recommend_color[key];
                                             } else {
                                                 // add a container div to hold the option div
                                                 let container = document.createElement("div");
                                                 container.id = tooltip_id + "_container";
-                                                container.style.backgroundColor = "#f0f0f0";
+                                                container.style.backgroundColor = recommend_color[key];
                                                 container.className = "containers";
                                                 // if the option is not in the tooltip, then, add the option to the tooltip without radio buttons
                                                 // add a breakline
@@ -374,11 +429,17 @@ function createTooltip(parameter, id) {
                                             }
                                             let recommendation_left = document.getElementById("recommendationLeft");
                                             recommendation_left.style.backgroundColor = recommend_color[key];
+
                                             let recommendation_title = document.getElementById("recommendationTitle");
                                             recommendation_title.innerText = key;
                                             recommendation_title.style.background = "linear-gradient(to right, " + recommend_color[key] + ", rgba(252, 252, 252, 0))";
                                             let recommendation_text = document.getElementById("recommendationText");
                                             recommendation_text.innerText = combination["reason"];
+                                        } else {
+                                            let option_div = document.getElementById(tooltip_id + "_option_" + other_option[tooltip_id]);
+                                            if (option_div) {
+                                                option_div.style.backgroundColor = recommend_color[key];
+                                            }
                                         }
                                     }
                                 }
@@ -415,31 +476,35 @@ function createTooltip(parameter, id) {
     }
 
     // calculate the position of the line link
-    code_example_block.appendChild(tooltip);
+    explainer.appendChild(tooltip);
     code_example_block.appendChild(line);
     // set the position of the tooltip to be beneth the span element
-    tooltip.style.left = span.offsetLeft + "px";
-    tooltip.style.top = span.offsetTop + span.offsetHeight + space_between_line_and_tooltip + "px";
+    decide_tooltip_position(tooltip, span);
+    tooltip.style.top = "401 px";
     line.style.left = span.offsetLeft + "px";
     line.style.top = span.offsetTop + span.offsetHeight + space_between_line_and_code + "px";
-    // add a line to link from the middle of the line to the middle of the top border of the tooltip
-    /* let link = linkCodeToExplanations(span.offsetLeft + span.offsetWidth / 2, span.offsetLeft + tooltip_width / 2, tooltip_border_colors[span_ids.indexOf(id)]);
-    code_example_block.appendChild(link);
-    link.style.position = "absolute";
-    link.style.left = span.offsetLeft + span.offsetWidth / 2 + "px";
-    link.style.top = span.offsetTop + span.offsetHeight + 3 + "px";
-    console.log(span.offsetLeft, link); */
+
     // hide the tooltip and the line by default
     tooltip.style.display = "none";
     line.style.display = "none";
     return span;
 }
 
+function decide_tooltip_position(tooltip, span) {
+    if (span.offsetLeft + tooltip.offsetWidth > explainer.offsetWidth) {
+        tooltip.style.left = explainer.offsetWidth - tooltip.offsetWidth + "px";
+    } else {
+        tooltip.style.left = span.offsetLeft + "px";
+    }
+}
+
 function createTooltipFromAnObject(parameter) {
     for (const id in parameter) {
         // let span = document.getElementById(id);
         let span = createTooltip(parameter, id);
-        span.addEventListener("mouseover", function () {
+        span.addEventListener("mouseover", function (e) {
+            let id = e.target.id.split("para_")[1];
+            let span_event = document.getElementById("para_" + id);
             clean_all_before_hover();
             // hide all the tooltips and lines first using the className
             let tooltips = document.getElementsByClassName("tooltips");
@@ -451,22 +516,34 @@ function createTooltipFromAnObject(parameter) {
                 line.style.display = "none";
             }
 
+            // remove all svg elements
+            let svgs = document.getElementsByTagName("svg");
+            for (let svg of svgs) {
+                svg.remove();
+            }
+
             let tooltip = document.getElementById("tooltip_" + id);
             let line = document.getElementById("line_" + id);
             if (tooltip && line) {
                 tooltip.style.display = "block";
+                decide_tooltip_position(tooltip, span_event);
+                let line = document.getElementById("line_" + id);
                 line.style.display = "block";
+                linkCodeToExplanations(span_event, tooltip, tooltip_border_colors[1]);
+
             }
         });
         // when the mouse is out of the span element, remove the tooltip and the line
         // if the mouse is out of the span element but within the line or the tooltip, then the tooltip and the line will not be removed
-        span.addEventListener("mouseout", function (event) {
-            // if the target's id contains the id of the span element, then, do not remove the tooltip and the line
-            if (event.target && event.target.id && event.target.id.includes(id)) {
-                tooltip.style.display = "none";
-                line.style.display = "none";
-            }
-        });
+        // span.addEventListener("mouseout", function (event) {
+        //     // if the target's id contains the id of the span element, then, do not remove the tooltip and the line
+        //     if (event.target && event.target.id && event.target.id.includes(id)) {
+        //         let tooltip = document.getElementById("tooltip_" + id);
+        //         tooltip.style.display = "none";
+        //         let line = document.getElementById("line_" + id);
+        //         line.style.display = "none";
+        //     }
+        // });
     }
 
     // by clicking on outside of the tooltip, the tooltip will be hidden
@@ -489,7 +566,9 @@ document.getElementById("btn_show_unused").addEventListener("click", function (e
     if (unused.style.display === "none") {
         unused.style.display = "inline";
         createTooltipFromAnObject(unusedParameters);
+        clean_all_before_hover();
     } else {
         unused.style.display = "none";
+        clean_all_before_hover();
     }
 })

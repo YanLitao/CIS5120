@@ -398,6 +398,14 @@ input {
     font-weight: 600;
 }
 
+#explainer {
+    width: 95vw;
+    position: absolute;
+    top: 400px;
+    left: 69px;
+    min-height: 25vh;
+}
+
 #recommendation {
     width: 20vw;
     height: 25vh;
