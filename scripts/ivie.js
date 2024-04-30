@@ -82,7 +82,6 @@ const unusedParameters = {
     }
 };
 
-
 const parameterCombinations = {
     "must use together": [
         {
@@ -406,7 +405,7 @@ function createTooltip(parameter, id) {
                                                 // add a breakline
                                                 let breakline = document.createElement("hr");
                                                 breakline.style.width = "100%";
-                                                breakline.style.border = "2px solid " + tooltip_color;
+                                                breakline.style.border = "2px solid " + recommend_color[key];
                                                 breakline.style.margin = "5px 0px";
                                                 container.appendChild(breakline);
                                                 let div = document.createElement("div");
@@ -554,6 +553,11 @@ function createTooltipFromAnObject(parameter) {
                 tooltip.style.display = "none";
                 let line = document.getElementById("line_" + id);
                 line.style.display = "none";
+                // remove all svg elements
+                let svgs = document.getElementsByTagName("svg");
+                for (let svg of svgs) {
+                    svg.remove();
+                }
             }
         }
     });

@@ -308,7 +308,6 @@ input {
     border: 0;
     outline: none;
     resize: none;
-    box-shadow: inset -12px 0px 15px -2px #AAA;
 }
 
 #container #codeExample #codeBlock #suggested {
@@ -439,14 +438,14 @@ input {
     float: left;
     line-height: 5vh;
     font-size: 25px;
-    color: gray;
 }
 
 #recommendation #recommendationContent #recommendationText {
     width: 19.5vw;
     height: 20vh;
     float: left;
-    font-size: 20px;
-    line-height: normal;
+    font-size: 24px;
+    font-family: Helvetica;
+    line-height: 1.5;
     padding: 1vh;
 }
