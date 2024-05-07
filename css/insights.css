@@ -1,0 +1,204 @@
+/* Basic reset */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Arial', sans-serif;
+}
+
+body {
+    color: #333;
+    background-color: #f9f9f9;
+    line-height: 1.6;
+}
+
+header {
+    background: #004d40;
+    color: #ffffff;
+    padding: 20px 10px;
+    text-align: center;
+}
+
+header h1 {
+    color: #c8e6c9;
+}
+
+main {
+    max-width: 800px;
+    margin: 20px auto;
+    padding: 20px;
+    background: white;
+    border-radius: 8px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+section {
+    margin-bottom: 20px;
+}
+
+h2 {
+    color: #2e7d32;
+}
+
+p,
+blockquote {
+    padding: 10px;
+    font-size: 1.1em;
+}
+
+blockquote {
+    font-style: italic;
+    background: #e8f5e9;
+    border-left: 5px solid #81c784;
+}
+
+img {
+    width: 100%;
+    height: auto;
+    margin: 10px 0;
+}
+
+footer {
+    text-align: center;
+    padding: 10px 0;
+    background: #004d40;
+    /* Dark green background for consistency with the Ivie theme */
+    color: white;
+    width: 100%;
+    height: 120px;
+    font-family: Arial, sans-serif;
+    /* Ensuring a clean, readable font */
+}
+
+footer a {
+    color: #AED581;
+    /* Light green for links to match the Ivie theme */
+    text-decoration: none;
+    /* Removes underline from links */
+    padding: 5px 15px;
+    /* Adds padding around the links for easier clickability */
+    transition: color 0.3s;
+    /* Smooth transition for hover effects */
+}
+
+footer a:hover,
+footer a:focus {
+    color: #C5E1A5;
+    /* Lighter green on hover for better visibility and interactivity */
+    text-decoration: underline;
+    /* Underline on hover to indicate clickable links */
+}
+
+
+section#prototypes {
+    width: 80%;
+    margin: 20px auto;
+    padding: 20px;
+    background: white;
+    border-radius: 8px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+.prototype {
+    margin-bottom: 20px;
+}
+
+.prototype h3 {
+    color: #2e7d32;
+    font-size: 1.4em;
+}
+
+.prototype p {
+    font-size: 1.2em;
+    color: #666;
+    margin-top: 5px;
+}
+
+.prototype img {
+    width: 100%;
+    height: auto;
+    margin-top: 10px;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+}
+
+table,
+th,
+td {
+    border: 1px solid #ddd;
+}
+
+th,
+td {
+    text-align: left;
+    padding: 8px;
+}
+
+th {
+    background-color: #f4f4f4;
+}
+
+tr:nth-child(even) {
+    background-color: #f9f9f9;
+}
+
+ul {
+    margin-left: 0;
+    /* Removes default browser margin */
+    padding-left: 20px;
+    /* Adds padding to move the list inward */
+}
+
+ul li {
+    margin-bottom: 10px;
+    /* Adds space between list items */
+    list-style-type: none;
+    /* Optional: removes bullet points */
+    position: relative;
+    /* For positioning the custom bullet or icon */
+    padding-left: 20px;
+    /* Optional: additional spacing for text away from the bullet */
+}
+
+ul li::before {
+    content: "•";
+    /* Custom bullet point */
+    color: #004d40;
+    /* Matching your color theme */
+    position: absolute;
+    left: 0;
+    /* Align bullet to the left */
+    top: 0;
+    /* Align bullet with the text */
+    font-size: 20px;
+    /* Adjust size as necessary */
+}
+
+#design-goals img {
+    width: 100%;
+    /* Adjust the width as needed, or use max-width for responsiveness */
+    height: auto;
+    /* Maintain aspect ratio */
+    display: block;
+    /* Ensures images are on their own line */
+    margin: 20px auto;
+    /* Adds vertical space and centers images horizontally */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    /* Adds subtle shadow for depth */
+    border-radius: 8px;
+    /* Optional: adds rounded corners */
+}
+
+#design-goals img:first-of-type {
+    margin-top: 30px;
+    /* Adds more space above the first image */
+}
+
+#design-goals img:last-of-type {
+    margin-bottom: 30px;
+    /* Adds more space below the last image */
+}

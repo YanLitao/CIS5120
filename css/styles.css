@@ -1,0 +1,149 @@
+/* Basic reset */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Arial', sans-serif;
+}
+
+body {
+    color: #333;
+    background-color: #f9f9f9;
+}
+
+nav {
+    background-color: #004d40;
+    color: white;
+    padding: 10px 20px;
+    text-align: center;
+    font-size: 1.2em;
+}
+
+
+header {
+    background: #2e7d32;
+    color: #ffffff;
+    padding: 40px 20px;
+    text-align: center;
+}
+
+header h1 {
+    color: #a5d6a7;
+}
+
+header p {
+    color: #c8e6c9;
+}
+
+main {
+    padding: 20px;
+}
+
+section#introduction {
+    background: white;
+    margin: 20px auto;
+    padding: 20px;
+    border-left: 5px solid #81c784;
+    font-size: 1.5em;
+    line-height: 1.2;
+    width: 60%;
+}
+
+section#introduction #intro {
+    font-weight: 900;
+    line-height: 2;
+}
+
+.highlight {
+    color: #2e7d32;
+    font-weight: bold;
+    font-style: italic;
+}
+
+section#features {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+}
+
+.feature {
+    background: white;
+    padding: 20px;
+    border-radius: 8px;
+    width: 60%;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    margin: 20px 0;
+    display: flex;
+    align-items: center;
+}
+
+.feature-right .feature-img {
+    order: 2;
+}
+
+.feature-right .feature-text {
+    order: 1;
+}
+
+.feature-img {
+    width: 650px;
+    /* Adjust to better fit alongside text */
+    height: auto;
+    margin-right: 20px;
+    margin-left: 20px;
+}
+
+.feature-text {
+    flex: 1;
+    text-align: left;
+}
+
+.feature h3 {
+    color: #1b5e20;
+    font-size: 1.5em;
+    line-height: 2;
+}
+
+.feature p {
+    font-size: 1.2em;
+    color: #666;
+    line-height: 1.2;
+}
+
+footer {
+    text-align: center;
+    padding: 10px 0;
+    background: #004d40;
+    /* Dark green background for consistency with the Ivie theme */
+    color: white;
+    height: 120px;
+    width: 100%;
+    font-family: Arial, sans-serif;
+    /* Ensuring a clean, readable font */
+}
+
+footer a {
+    color: #AED581;
+    /* Light green for links to match the Ivie theme */
+    text-decoration: none;
+    /* Removes underline from links */
+    padding: 5px 15px;
+    /* Adds padding around the links for easier clickability */
+    transition: color 0.3s;
+    /* Smooth transition for hover effects */
+}
+
+footer a:hover,
+footer a:focus {
+    color: #C5E1A5;
+    /* Lighter green on hover for better visibility and interactivity */
+    text-decoration: underline;
+    /* Underline on hover to indicate clickable links */
+}
+
+p,
+blockquote {
+    padding: 10px;
+    font-size: 1.1em;
+}

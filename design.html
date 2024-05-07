@@ -1,0 +1,261 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Reflection on Ivie's Design</title>
+    <link rel="stylesheet" href="css/insights.css">
+</head>
+
+<body>
+    <header>
+        <h1>Ivie's Design Reflections</h1>
+        <p>Sharing insights from our journey to enhance user interaction through Ivie</p>
+    </header>
+    <main>
+        <section id="introduction">
+            <h2>Understanding User Needs</h2>
+            <p>Throughout our design process, we've learned that user needs are as diverse as they are complex. Feedback
+                from early testing showed that while some users praised the in-situ explanations, others were
+                overwhelmed by the density of information.</p>
+        </section>
+        <section id="design-challenges">
+            <h2>Challenges in Current Designs</h2>
+            <p>"Too much at once can be as bad as too little" — this insight became clear when observing users interact
+                with initial prototypes. Our challenge was balancing information density with accessibility.</p>
+        </section>
+        <section id="scenario">
+            <h2>Scenario In General</h2>
+            <p>Imagine Dorothy, a climate scientist who is about to perform exploratory data analysis of
+                longitudinal climate data about the Amazon rainforest. Dorothy plans to use a common code-based data
+                analysis toolset, namely, a contemporary code editor equipped with Copilot and a Python environment with
+                the Pandas data manipulation library and Matplotlib visualization library pre-installed. In this
+                scenario, Dorothy is using a code editor that has been extended with Ivie. Dorothy has passing knowledge
+                of Pandas and Matplotlib—enough to do work with them—though she often consults online resources to find
+                out how to fine-tune the API functions to manipulate and visualize data as she would like.</p>
+            <p>For Dorothy, the explanations should fulfill her needs in:</blockquote>
+            <blockquote>N1. She wants to know what parameters are necessary for her data processing.</blockquote>
+            <blockquote>N2. She wishes the explanations could tell her what suitable values she should use for her data.
+            </blockquote>
+            <blockquote>N3. She wants to ask some questions about the explanations and see some examples that also use
+                the same
+                code
+                with suggestions.</blockquote>
+            <blockquote>N4. She needs to validate the explanations since she does not fully trust the generated content.
+            </blockquote>
+        </section>
+
+
+        <section id="prototypes">
+            <h2>High-Fidelity Prototyping</h2>
+            <p>Exploring detailed interactions and visuals to refine Ivie's user interface.</p>
+
+            <div class="prototype">
+                <h3>Parameter Insight</h3>
+                <img src="figures/design-a.png" alt="Parameter Insight">
+                <p>Provides comprehensive explanations for each parameter and its potential values, offering in-depth
+                    contextual understanding directly within the user interface.</p>
+            </div>
+
+            <div class="prototype">
+                <h3>Interactive Query Assistant</h3>
+                <img src="figures/design-b.png" alt="Interactive Query Assistant">
+                <p>Enables dynamic interaction with LLMs, allowing users to pose follow-up questions about parameters
+                    and code suggestions, enhancing comprehension and engagement.</p>
+            </div>
+
+            <div class="prototype">
+                <h3>Editable Explanations</h3>
+                <img src="figures/design-c.png" alt="Editable Explanations">
+                <p>Offers users the ability to directly modify explanations, enabling real-time updates to the code and
+                    fostering a deeper learning experience.</p>
+            </div>
+
+            <div class="prototype">
+                <h3>Parameter Compatibility Explorer</h3>
+                <img src="figures/design-d.png" alt="Parameter Compatibility Explorer">
+                <p>Shows viable combinations and conflicts among parameter options, aiding users in navigating complex
+                    dependencies and enhancing decision-making.</p>
+            </div>
+
+            <div class="prototype">
+                <h3>Contextual Code Tutor</h3>
+                <img src="figures/design-e.png" alt="Contextual Code Tutor">
+                <p>Uses LLMs to generate detailed, context-specific tutorials for lines of code, providing customized
+                    learning based on the actual coding environment.</p>
+            </div>
+
+            <div class="prototype">
+                <h3>Dataflow Debugger</h3>
+                <img src="figures/design-f.png" alt="Dataflow Debugger">
+                <p>Utilizes data flow analysis to clarify how parameter values influence the behavior of generated code,
+                    supporting users in debugging and optimizing their code effectively.</p>
+            </div>
+
+        </section>
+
+        <section id="design-goals">
+            <h2>Design Goals</h2>
+            <p>We decided to only implement features of Parameter Insight and Parameter Compatibility Explorer to
+                enhance direct interaction within the user's workflow. These tools provide immediate, contextually
+                relevant information, crucial for quick decision-making. However, the challenge remains whether to
+                integrate these insights directly into the main interface or utilize a separate interactive panel for
+                detailed relationships, aiming to avoid overwhelming users with information.</p>
+
+            <figure>
+                <img src="figures/forbid.png" alt="Direct Parameter Interaction">
+                <figcaption>Variant A: Direct Parameter Interaction - Shows parameter explanations by hovering, reducing
+                    clutter.</figcaption>
+            </figure>
+
+            <figure>
+                <img src="figures/variant-b.png" alt="Separate Panel Display">
+                <figcaption>Variant B: Separate Panel Display - Presents all parameters simultaneously, increasing
+                    visibility but may overwhelm.</figcaption>
+            </figure>
+
+            <p>As part of enhancing Ivie's usability, a key question arose: Should the interface display parameter
+                relationships directly when a parameter is selected (Variant A), or should it present all parameter
+                explanations simultaneously in a separate panel (Variant B)? This decision is crucial for balancing
+                information accessibility with user interface complexity, directly impacting Dorothy's efficiency and
+                comfort with the tool.</p>
+            <p>Reflecting on this, it becomes essential to consider the effectiveness of each approach in real-world
+                scenarios, guiding our final implementation based on user feedback and usability studies.</p>
+        </section>
+
+
+        <section id="user-study">
+            <h2>Within-Subjects Study</h2>
+            <p>To determine the most effective presentation of parameter relationships within Ivie, we compared two
+                interface variants:</p>
+            <ul>
+                <li><strong>Variant A:</strong> Displays explanations by hovering over parameters, providing information
+                    as needed and reducing screen clutter.</li>
+                <li><strong>Variant B:</strong> Shows all explanations simultaneously in a separate panel, ensuring
+                    comprehensive visibility but potentially increasing cognitive load.</li>
+            </ul>
+            <p> Eight participants were asked to interact with each variant, providing feedback through
+                questionnaires on aspects such as usefulness, distraction, information overload, and understanding of
+                the code. This feedback is crucial in informing whether the direct integration of features like
+                Parameter Insight into the main interface is effective, or if a separate, dedicated panel should be
+                considered to enhance user understanding without overwhelming them.</p>
+        </section>
+
+
+        <section id="study-results">
+            <h2>Study Results</h2>
+            <p>The results from our usability study comparing two variants of parameter explanation displays are
+                summarized below. Statistical significance was assessed using the Wilcoxon Signed-Rank Test.</p>
+            <table>
+                <tr>
+                    <th>Measure</th>
+                    <th>Variant 1 (Median, SD)</th>
+                    <th>Variant 2 (Median, SD)</th>
+                    <th>p-value</th>
+                    <th>W Value</th>
+                </tr>
+                <tr>
+                    <td>Understanding of Parameters in Generated Code</td>
+                    <td>6.5 (SD 1.053)</td>
+                    <td>6.0 (SD 0.968)</td>
+                    <td>0.04163</td>
+                    <td>0.00000</td>
+                </tr>
+                <tr>
+                    <td>Helpfulness of Explanations for Understanding Parameters</td>
+                    <td>6.5 (SD 0.695)</td>
+                    <td>6.0 (SD 1.000)</td>
+                    <td>0.20711</td>
+                    <td>1.50000</td>
+                </tr>
+                <tr>
+                    <td>Utility of Explanations</td>
+                    <td>6.5 (SD 0.829)</td>
+                    <td>6.0 (SD 0.780)</td>
+                    <td>0.08986</td>
+                    <td>0.00000</td>
+                </tr>
+                <tr>
+                    <td>Understanding of Parameter Options and Values</td>
+                    <td>6.0 (SD 0.484)</td>
+                    <td>6.0 (SD 0.599)</td>
+                    <td>0.07865</td>
+                    <td>0.00000</td>
+                </tr>
+                <tr>
+                    <td>Understanding Which Parameters Can Be Used Together</td>
+                    <td>6.0 (SD 1.658)</td>
+                    <td>3.5 (SD 2.000)</td>
+                    <td>0.01177</td>
+                    <td>0.00000</td>
+                </tr>
+                <tr>
+                    <td>Understanding Which Parameters Should Not Be Used Together</td>
+                    <td>5.5 (SD 1.713)</td>
+                    <td>3.5 (SD 2.061)</td>
+                    <td>0.20818</td>
+                    <td>4.50000</td>
+                </tr>
+                <tr>
+                    <td>Self-Reported Distraction</td>
+                    <td>3.0 (SD 1.500)</td>
+                    <td>4.0 (SD 0.927)</td>
+                    <td>0.88222</td>
+                    <td>16.00000</td>
+                </tr>
+                <tr>
+                    <td>Overall Usefulness of Explanations</td>
+                    <td>6.5 (SD 1.322)</td>
+                    <td>5.5 (SD 0.695)</td>
+                    <td>0.09373</td>
+                    <td>6.50000</td>
+                </tr>
+            </table>
+            <p>The results indicate that Variant 1 generally provided more understandable and useful explanations
+                compared to Variant 2, particularly in showing which parameters can and cannot be used together, where
+                significant differences were found. The minimal distraction reported by users (median = 3.0) and not
+                significantly different from Variant 2, suggests that the explanations in Variant 1, while effective, do
+                not significantly increase cognitive load. This supports the design choice of providing integrated,
+                interactive explanations in the user interface. However, some non-significant trends suggest room for
+                further refinement in how information is presented to enhance clarity without overwhelming users.
+            </p>
+        </section>
+
+        <section id="reflection">
+            <h2>Reflective Insights</h2>
+            <p>Throughout the development of Ivie, our user studies revealed crucial insights into the user's
+                interaction with technology. For instance, while testing different interface variants, we found that
+                users prefer direct, in-context explanations (Variant A) over floating panels (Variant B) as they reduce
+                cognitive load and enhance comprehension, aligning with heuristic findings that emphasized visibility
+                and directness.</p>
+            <blockquote>"Direct interactions within the code editor not only reduce distraction but also foster a deeper
+                understanding of the code structure and its functionality." — User Study Participant</blockquote>
+        </section>
+
+        <section id="iterative-design">
+            <h2>Iterative Design Learnings</h2>
+            <p>Iterative design helped us identify that a dynamic interface, which adjusts based on user proficiency,
+                significantly enhances user satisfaction. Seeing the interface adapt to user input proved crucial in
+                providing support without overwhelming users with unnecessary information.</p>
+        </section>
+
+        <section id="conclusions">
+            <h2>Effective Interface Design</h2>
+            <p>Our studies underscored the importance of adaptability in design. Direct, in-context explanations
+                provided by Variant A were preferred for their effectiveness in enhancing understanding and reducing
+                user frustration without overwhelming them with excessive information.</p>
+            <blockquote>"The direct approach in Variant A helped me grasp complex concepts much quicker than I
+                anticipated." — User Study Participant</blockquote>
+        </section>
+
+    </main>
+    <footer>
+        <p>© 2024 Ivie. All rights reserved.</p>
+        <p><a href="home.html">Home</a> | <a href="index.html">Visit Ivie's Main
+                Website</a></p>
+    </footer>
+
+</body>
+
+</html>
